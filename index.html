@@ -110,16 +110,32 @@
             const mensaje = document.getElementById("mensaje").value;
 
             const texto = `Hola Leonela, soy ${nombre}. Te escribo porque: ${mensaje}`;
-            const numero = "5493513554845";
+            const numero = "5493513554845"; // sin signos, guiones ni espacios
 
             const url = `https://wa.me/${numero}?text=${encodeURIComponent(
               texto
             )}`;
 
-            window.open(url, "_blank");
+            // Mostrar mensaje antes de redirigir
+            const mensajeDiv = document.createElement("div");
+            mensajeDiv.textContent = "Redirigiendo a WhatsApp...";
+            mensajeDiv.style.background = "#c86b85";
+            mensajeDiv.style.color = "white";
+            mensajeDiv.style.padding = "1rem";
+            mensajeDiv.style.textAlign = "center";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.marginTop = "1rem";
+            mensajeDiv.style.fontWeight = "bold";
+
+            const formulario = document.getElementById("formularioContacto");
+            formulario.appendChild(mensajeDiv);
+
+            setTimeout(() => {
+              window.open(url, "_blank");
+              mensajeDiv.remove();
+            }, 1000);
           });
       </script>
-
       <div class="redes">
         <a
           href="https://www.instagram.com/emicardozo.1"
