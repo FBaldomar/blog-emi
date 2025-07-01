@@ -15,6 +15,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   </head>
   <body>
     <header>
@@ -61,18 +62,8 @@
 
     <section id="blog">
       <h2>Blog</h2>
-      <article>
-        <h3>Título de la publicación</h3>
-        <p>
-          Este es un ejemplo de entrada al blog. Aquí mi amor podrá escribir
-          sobre temas de interés social, consejos, reflexiones o recursos
-          útiles.
-        </p>
-        <small>Publicado el 25 de junio de 2025</small>
-      </article>
-      <!-- Nuevas entradas se agregan aquí -->
+      <div id="blog-posts">Cargando publicaciones...</div>
     </section>
-
     <section id="contacto">
       <h2>Contacto</h2>
       <p>¿Querés comunicarte? Completá el siguiente formulario:</p>
@@ -130,6 +121,7 @@
             }, 1000);
           });
       </script>
+
       <div class="redes">
         <a
           href="https://www.instagram.com/emicardozo.1"
@@ -154,5 +146,36 @@
     <footer>
       <p>&copy; 2025 Leonela Emilce Cardozo | Trabajadora Social</p>
     </footer>
+    <script>
+      const sheetURL =
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vR70rl8ak4gZxSeYoqdmUu-5JYJV1x0cyfqjYAVPXeqJrZ6QrgKRGNxTw6v9WkSn43jqb1w9yv3u2HS/pub?gid=0&single=true&output=csv";
+
+      fetch(sheetURL)
+        .then((res) => res.text())
+        .then((csvText) => {
+          const results = Papa.parse(csvText, {
+            header: true,
+            skipEmptyLines: true,
+          });
+
+          const blogContainer = document.getElementById("blog-posts");
+          blogContainer.innerHTML = "";
+
+          results.data.forEach((post) => {
+            const article = document.createElement("article");
+            article.innerHTML = `
+          <h3>${post.titulo}</h3>
+          <p>${post.contenido.replace(/\n/g, "<br>")}</p>
+          <small>Publicado el ${post.fecha}</small>
+        `;
+            blogContainer.appendChild(article);
+          });
+        })
+        .catch((error) => {
+          console.error("Error al cargar el blog:", error);
+          document.getElementById("blog-posts").textContent =
+            "No se pudieron cargar las publicaciones.";
+        });
+    </script>
   </body>
 </html>
