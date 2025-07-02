@@ -157,16 +157,27 @@
             header: true,
             skipEmptyLines: true,
           });
+          console.log("Datos del blog:", results.data);
+
+          // Ordenar los posts por fecha descendente
+          const posts = results.data.sort((a, b) => {
+            const dateA = new Date(a.fecha.split("/").reverse().join("-"));
+            const dateB = new Date(b.fecha.split("/").reverse().join("-"));
+            return dateB - dateA; // Más nuevo primero
+          });
 
           const blogContainer = document.getElementById("blog-posts");
           blogContainer.innerHTML = "";
 
-          results.data.forEach((post) => {
+          posts.forEach((post) => {
             const article = document.createElement("article");
+            article.className = "blog-card";
             article.innerHTML = `
           <h3>${post.titulo}</h3>
+          <small class="fecha-publicacion">🗓 ${formatearFecha(
+            post.fecha
+          )}</small>
           <p>${post.contenido.replace(/\n/g, "<br>")}</p>
-          <small>Publicado el ${post.fecha}</small>
         `;
             blogContainer.appendChild(article);
           });
@@ -176,6 +187,26 @@
           document.getElementById("blog-posts").textContent =
             "No se pudieron cargar las publicaciones.";
         });
+
+      // 👉 Formatea fechas como "25 de junio de 2025"
+      function formatearFecha(fechaTexto) {
+        const [dia, mes, año] = fechaTexto.split("/");
+        const meses = [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre",
+        ];
+        return `${parseInt(dia)} de ${meses[parseInt(mes) - 1]} de ${año}`;
+      }
     </script>
   </body>
 </html>

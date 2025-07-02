@@ -103,3 +103,41 @@ footer {
   color: #6e4555;
   margin-top: 2rem;
 }
+#blog-posts {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.blog-card {
+  background: #fff8f3;
+  border: 1px solid #f2d3d0;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-family: "Quicksand", sans-serif;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+}
+
+.blog-card h3 {
+  margin-top: 0;
+  color: #b45572;
+  font-size: 1.3rem;
+}
+
+.blog-card p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  color: #444;
+}
+
+.fecha-publicacion {
+  color: #888;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
